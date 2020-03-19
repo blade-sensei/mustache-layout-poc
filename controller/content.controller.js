@@ -14,9 +14,24 @@ router.get('/:id?', async (req, res) => {
     
     return res.render('base.view.html', { content })
     
-    
-    
+    const editor = await render(res, 'editor.view.html', data)
+
 });
+
+async function build(res) {
+    const html = '';
+    const pages = {
+        'editor.view.html': { parent: 'admin.view.html', data: {} },
+        'admin.view.html': { parent: 'base.view.html', data: {} }
+    }
+
+    for (let page in pages) {
+        const pageInfo = pages[page];
+        let content = await render(res, page, pageInfo.data);
+        html = await render(res, pageInfo.parent, { content } )
+    }
+
+}
 
 const rend = (res, view, data) => {
 return new Promise((s, f) => {
