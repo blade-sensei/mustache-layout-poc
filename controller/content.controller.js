@@ -9,27 +9,29 @@ const mustache = require('mustache');
 router.get('/:id?', async (req, res) => {
     const  article = articlesMock[0];
     let render = util.promisify(res.render);
-    const data = { title: 'this is content'}
-    const content = await rend(res, 'content.view.html', data)
-    
-    return res.render('base.view.html', { content })
-    
-    const editor = await render(res, 'editor.view.html', data)
+    const html = await build(res);
+    console.log(html);
+    return res.send(html);
 
 });
 
 async function build(res) {
-    const html = '';
+    let html = '';
     const pages = {
-        'editor.view.html': { parent: 'admin.view.html', data: {} },
-        'admin.view.html': { parent: 'base.view.html', data: {} }
+        main: 'editor.view.html',
+        'editor.view.html': { parent: 'admin.view.html', data: { title: 'editor title'} },
+        'admin.view.html': { parent: 'base.view.html', data: { role: 'admin'} },
+        'base.view.html': { data: { logo: 'logo' } }
     }
 
-    for (let page in pages) {
-        const pageInfo = pages[page];
-        let content = await render(res, page, pageInfo.data);
-        html = await render(res, pageInfo.parent, { content } )
+    let pageToBuildName = pages.main;
+    while(pages[pageToBuildName]) {
+        let pageToBuildInfo = pages[pageToBuildName];
+        pageToBuildInfo.data.content = html;
+        html = await rend(res, pageToBuildName, pageToBuildInfo.data);
+        pageToBuildName = pageToBuildInfo.parent;
     }
+    return html;
 
 }
 
