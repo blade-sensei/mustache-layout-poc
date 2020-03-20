@@ -1,4 +1,4 @@
-const btn = document.querySelector('.alert');
+const btn = document.querySelector('.save');
 
 btn.addEventListener('click', () => {
     alert('hello, world !');

@@ -1,0 +1,15 @@
+<h3 style="text-decoration: underline;"> Admin section layout </h3> 
+
+Admin can perform actions: 
+
+<ul>
+    {{#sections}}
+        <li>
+            <a href="editor/edit"> {{ . }} </a>
+        </li>
+    {{/sections}}
+</ul>
+
+<div class="admin-content">
+    {{{ content }}}
+</div>

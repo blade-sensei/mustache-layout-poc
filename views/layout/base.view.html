@@ -7,17 +7,14 @@
     <title>Document</title>
 </head>
 <body>
-    {{ >header.view }}
+    {{ > layout/header.view }}
     <div class="main">
-        <h1 class="title"> Base page title </h1>
-        {{{content }}}
-        this is base after
-        <section>
-            <button class="alert"> Alert !</button>
-        </section>
-        <p> This text is for base html: {{ logo }} </p>
+        <h1 class="title"> {{ headTitle }} </h1>
+        <div class="layout-content">
+            {{{ content }}}
+        </div>
     </div>
-    {{ >footer.view }}
+    {{ > layout/footer.view }}
     <script src="/js/index.js"></script>
 </body>
 </html>
