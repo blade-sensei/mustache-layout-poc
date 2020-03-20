@@ -1,19 +1,20 @@
-async function build(res, pages) {
-    let html = '';
-    let pageToBuildName = pages.main;
-    while(pages[pageToBuildName]) {
-        let pageToBuildInfo = pages[pageToBuildName];
-        pageToBuildInfo.data.content = html;
-        html = await render(res, pageToBuildName, pageToBuildInfo.data);
-        pageToBuildName = pageToBuildInfo.parent;
+async function build(res, layers) {
+    let previousLayer = '';
+    let combinedLayout = '';
+    for (layer of layers ) {
+        const { name: layerName, ...layerData } = layer;
+        if (!layerData) layerData = {};
+        layerData.child = previousLayer;
+        combinedLayout = await render(res, layerName, layerData);
+        previousLayer = combinedLayout
     }
-    return html;
 
+    return combinedLayout;
 }
 
-const render = (res, view, data) => {
+const render = (res, viewName, data) => {
     return new Promise((s, f) => {
-        res.render(view, data, (err, html) => {
+        res.render(viewName, data, (err, html) => {
             s(html);
         })
     })

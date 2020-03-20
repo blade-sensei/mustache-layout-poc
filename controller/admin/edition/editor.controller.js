@@ -4,13 +4,11 @@ const mustacheLayout = require('../../../utils/mustache-layout');
 
 router.get('/edit', async (req, res) => {
     const sections = ['create', 'delete', 'edition', 'analytics']
-    const pages = {
-        main: 'admin/edition/editor.view.html',
-        'admin/edition/editor.view.html': { parent: 'admin/admin.view.html', data: {} },
-        'admin/admin.view.html': { parent: 'layout/base.view.html', data: { sections } },
-        'layout/base.view.html': { data: { headTitle: 'Mustache Layout POC' } }
-    }
-    const html = await mustacheLayout.build(res, pages);
+    const html = await mustacheLayout.build(res, [
+        { name: 'admin/edition/editor.view.html' },
+        { name: 'admin/admin.view.html', sections },
+        { name:'layout/base.view.html', headTitle: 'Mustache Layout POC' }
+    ]);
     return res.send(html);
 
 });
