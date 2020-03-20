@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.get('/edit', async (_, res) => {
     const sections = ['create', 'delete', 'edition', 'analytics']
-    const html = await res.build([
+    const html = await res.buildLeyout([
         { name: 'admin/edition/editor.view.html' },
         { name: 'admin/admin.view.html', sections },
         { name:'layout/base.view.html', headTitle: 'Mustache Layout POC' }
