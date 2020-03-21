@@ -8,7 +8,7 @@ const mustacheLayout = require('./utils/mustache-layout');
 
 const app = express();
 
-mustacheLayout.injectLayoutBuilder(app);
+mustacheLayout(app);
 
 // set template engine
 app.engine('html', mustacheExpress());
